@@ -79,6 +79,21 @@ def edit(token, repo, body, comment_id) -> Tuple[str, str]:
     json = resp.json()
     return str(json['id']), body
 
+def delete(token, repo, comment_id) -> Tuple[str, str]:
+    headers = {
+        'Authorization': f'token {token}',
+    }
+    resp = requests.delete(
+        f'{GITHUB_API_BASE_URL}/repos/{repo}/issues/comments/{comment_id}',
+        headers=headers,
+    )
+    if resp.status_code != HTTPStatus.NO_CONTENT:
+        print_action_error(f'cannot delete comment')
+        print_action_debug(f'status code: {resp.status_code}')
+        print_action_debug(f'response body: {resp.text}')
+        exit(1)
+
+    return '', ''
 
 def main():
     repo = os.environ['GITHUB_REPOSITORY']
@@ -91,6 +106,7 @@ def main():
 
     if bad_text in body:
         print_action_error(f"Found {bad_text} in comment. Disallowed!")
+        _id, _body = delete(token, repo, comment_id)
         exit(1)
         
     _id, _body = '', ''
