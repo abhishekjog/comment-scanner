@@ -80,38 +80,24 @@ def edit(token, repo, body, comment_id) -> Tuple[str, str]:
     return str(json['id']), body
 
 
-def delete(token, repo, comment_id) -> Tuple[str, str]:
-    headers = {
-        'Authorization': f'token {token}',
-    }
-    resp = requests.delete(
-        f'{GITHUB_API_BASE_URL}/repos/{repo}/issues/comments/{comment_id}',
-        headers=headers,
-    )
-    if resp.status_code != HTTPStatus.NO_CONTENT:
-        print_action_error(f'cannot delete comment')
-        print_action_debug(f'status code: {resp.status_code}')
-        print_action_debug(f'response body: {resp.text}')
-        exit(1)
-
-    return '', ''
-
-
 def main():
     repo = os.environ['GITHUB_REPOSITORY']
     action_type = get_action_input('type', required=True)
     token = get_action_input('token', required=True)
-    body = get_action_input('body')
+    body = get_action_input('body', required=True)
+    bad_text = get_action_inpu('bad_text', required=True)
     comment_id = get_action_input('comment_id')
     issue_number = get_action_input('issue_number')
 
+    if bad_text in body:
+        print_action_error(f"Found {bad_text} in comment. Disallowed!")
+        exit(1)
+        
     _id, _body = '', ''
     if action_type == 'create':
         _id, _body = create(token, repo, body, issue_number)
     elif action_type == 'edit':
         _id, _body = edit(token, repo, body, comment_id)
-    elif action_type == 'delete':
-        _id, _body = delete(token, repo, comment_id)
 
     set_action_output('id', _id)
     set_action_output('body', _body)
