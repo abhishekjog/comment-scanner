@@ -106,7 +106,7 @@ def main():
 
     if bad_text in body:
         print_action_error(f"Found {bad_text} in comment. Disallowed!")
-        #_id, _body = delete(token, repo, comment_id)
+        _id, _body = delete(token, repo, comment_id)
         exit(1)
         
     #_id, _body = '', ''
@@ -115,8 +115,8 @@ def main():
     #elif action_type == 'edit':
     #    _id, _body = edit(token, repo, body, comment_id)
 
-    #set_action_output('id', _id)
-    #set_action_output('body', _body)
+    set_action_output('id', _id)
+    set_action_output('body', _body)
 
 
 if __name__ == '__main__':
