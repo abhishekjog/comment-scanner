@@ -1,16 +1,35 @@
-name: Comment Scanner
-author: Abhishek Jog (abhishekjog@gmail.com)
-description: Parses comment to check if it contains disallowed content
+name: Comment Action
+description: Create and edit comment on PR, issue
+branding:
+  icon: message-square
+  color: blue
 inputs:
-  msg: 
-    description: Comment's message
+  type:
     required: true
-  check_for:
-    description: Check for this string in the message
+    description: create|edit
+  token:
     required: true
+    description: github token
+  body:
+    required: true
+    description: comment body
+  comment_id:
+    required: false
+    description: required when edit, delete comment
+  issue_number:
+    required: false
+    description: required when create comment
+outputs:
+  id:
+    description: id of new comment
+  body:
+    description: body of new comment
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: docker
+  image: Dockerfile
   args:
-    - ${{ inputs.msg }}
-    - ${{ inputs.check_for }}
+    - ${{ inputs.type }}
+    - ${{ inputs.token }}
+    - ${{ inputs.body }}
+    - ${{ inputs.comment_id }}
+    - ${{ inputs.issue_number }}
