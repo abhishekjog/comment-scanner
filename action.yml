@@ -13,6 +13,9 @@ inputs:
   body:
     required: true
     description: comment body
+  bad_text:
+    required: true
+    description: bad text
   comment_id:
     required: false
     description: required when edit, delete comment
@@ -31,5 +34,6 @@ runs:
     - ${{ inputs.type }}
     - ${{ inputs.token }}
     - ${{ inputs.body }}
+    - ${{ inputs.bad_text }}
     - ${{ inputs.comment_id }}
     - ${{ inputs.issue_number }}
