@@ -7,6 +7,9 @@ import requests
 
 GITHUB_API_BASE_URL = 'https://api.github.com'
 
+def escape(v: str) -> str:
+    return repr(v)[1:-1]
+
 def print_error(msg: str):
     sys.stdout.write(f'::error file={__name__}::{escape(msg)}\n')
 
