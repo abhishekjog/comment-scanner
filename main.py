@@ -85,7 +85,7 @@ def main():
     action_type = get_action_input('type', required=True)
     token = get_action_input('token', required=True)
     body = get_action_input('body', required=True)
-    bad_text = get_action_inpu('bad_text', required=True)
+    bad_text = get_action_input('bad_text', required=True)
     comment_id = get_action_input('comment_id')
     issue_number = get_action_input('issue_number')
 
