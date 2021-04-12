@@ -2,7 +2,7 @@ If you want to scan each PR and issue comment for prohibited text while it is be
 
 Sample syntax for actions yml file:
 e.g. I do not want any of the comments posted if they leak my domain name 
-```
+
 name: comment example
 on: issue_comment
 jobs:
@@ -29,6 +29,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           bad_text: "mydomain.com"
           comment_id: ${{ github.event.comment.id }}
-```
+
 With above action in place, every issue or PR comment will be scaned for presence of bad text.
 As GitHub works, the comment is posted first, then the action bot runs and deletes the comment if needed.
